@@ -1,0 +1,28 @@
+<div class="card">
+  <h3>{{ a["title"] }}</h3>
+  <p class="meta">
+    Published {{ a["date"] }} | {{ a["source"] }}
+    | Event date: {{ a["event_date"] | event_date }}
+  </p>
+  {% if a["country"] %}<span class="tag">{{ a["country"] }}</span>{% endif %}
+  {% if a["disease"] %}<span class="tag">{{ a["disease"] }}</span>{% endif %}
+  {% if a["category"] %}<span class="tag">{{ a["category"] }}</span>{% endif %}
+  {% if a["status"] %}<span class="tag">{{ a["status"] }}</span>{% endif %}
+  {% if a["summary"] %}
+  <p class="summary">{{ a["summary"] }}</p>
+  <p class="ai-label">AI-generated summary. Check the original report for full details.</p>
+  {% endif %}
+  <p><a href="{{ a['link'] }}" target="_blank">Read the original report</a></p>
+
+  {% set others = related.get(a["group_id"], []) | rejectattr("id", "equalto", a["id"]) | list %}
+  {% if others %}
+  <details class="related">
+    <summary>{{ others|length }} other report{{ "s" if others|length > 1 }} on this outbreak</summary>
+    <ul>
+      {% for r in others %}
+      <li>{{ r["date"] }} | {{ r["source"] }} | <a href="{{ r['link'] }}" target="_blank">{{ r["title"] }}</a></li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+</div>

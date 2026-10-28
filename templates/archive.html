@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Outbreak News Archive</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="/">Latest</a>
+    <a href="/archive">Archive</a>
+  </nav>
+
+  <main>
+    <h1>Outbreak News Archive</h1>
+
+    <form class="search-box" method="get" action="/archive">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search by disease, country or keyword">
+      <button type="submit">Search</button>
+      <div class="filters">
+        {% set labels = {"disease": "All diseases", "country": "All countries", "category": "All categories", "status": "All statuses"} %}
+        {% for column, values in options.items() %}
+        <select name="{{ column }}" onchange="this.form.submit()">
+          <option value="">{{ labels[column] }}</option>
+          {% for v in values %}
+          <option value="{{ v }}" {% if selected[column] == v %}selected{% endif %}>{{ v }}</option>
+          {% endfor %}
+        </select>
+        {% endfor %}
+        <a href="/archive">Clear</a>
+      </div>
+    </form>
+
+    <p class="meta">{{ articles|length }} reports found</p>
+
+    {% for a in articles %}
+    {% include "card.html" %}
+    {% endfor %}
+  </main>
+</body>
+</html>

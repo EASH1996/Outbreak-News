@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Outbreak News</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="/">Latest</a>
+    <a href="/archive">Archive</a>
+  </nav>
+
+  <main>
+    <h1>Latest Outbreak News</h1>
+
+    {% for a in articles %}
+    {% include "card.html" %}
+    {% endfor %}
+  </main>
+</body>
+</html>
